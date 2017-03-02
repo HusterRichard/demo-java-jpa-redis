@@ -11,7 +11,8 @@
 ### 1.1.自动生成DDL ###
 	step1.在start.spring.io中生成一个支持spring-boot-starter-data-redis的demo；
 	step2.在application.properties 中配置数据库ip、port、database、password；
-	step3.在ProjectConfig.java中，配置ORM映射对应的domain model，配置RestTemplate。
+	step3.在ProjectConfig.java中，配置ORM映射对应的domain model，配置RestTemplate；
+	step4.定义domain model，spring boot服务启动时，会扫描model，生成数据库的schema。
 
 ## 2.数据库操纵DML ##
 	step1.利用泛型，生成操作模型的RestTemplate（bean）；
