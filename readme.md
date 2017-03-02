@@ -1,36 +1,43 @@
 # 目的 #
  
- 通过Demo，演示jpa-MongoDB操纵NoSQL数据库（MongoDB）
+ 通过Demo，演示jpa-redis操纵NoSQL数据库（Redis）
 	
 # 基本操作 #
 
+## 0.安装redis server ##
+	参考链接：http://jingyan.baidu.com/article/0f5fb099045b056d8334ea97.html
+
 ## 1.数据库定义DDL ##
 ### 1.1.自动生成DDL ###
+	step1.在start.spring.io中生成一个支持spring-boot-starter-data-redis的demo；
+	step2.在application.properties 中配置数据库ip、port、database、password；
+	step3.在ProjectConfig.java中，配置ORM映射对应的domain model，配置RestTemplate。
 
 ## 2.数据库操纵DML ##
+	step1.利用泛型，生成操作模型的RestTemplate（bean）；
+	step2.使用RestTemplate的opsForValue方法，可以在内存中操作数据库对象（类似dao操作）；
+	step3.opsForValue的操作方法是过程式的，可以通过封装成dao的操作类xxxRepository来，使得DML更加对象化。
 
 # 多数据源&数据库连接 #
 
 ## 1.多数据源 ##
-- 当需要同时操纵多个数据库时，就需要多数据源。
-- step1.在配置文件application.properties中配置多个数据库的url、username、password，通过键值来区分，例如本例中，project数据库的数据源的键值是"spring.datasource.project"，scenario数据库的数据源的键值是"spring.datasource.scenario"。
-- step2.在DataSourceConfig.java中为每个数据源DataSource定义一个bean，使用@ConfigurationProperties(prefix="xxx")与step1中定义的数据源键值绑定。
-- step3.每个数据源定义一个xxxConfig.java，用于定义该数据源的EntityManager、TransactionManager和映射的模型的package路径，hibernate启动时会扫描这个package下所有的模型来定义数据库。所以，不同数据库下的模型要放在不同的package下，例如本例中，project数据库的模型放在package com.huawei.domain.project，scenario数据库的模型放在package com.huawei.domain.scenario。
+	step1.不同领域的模型，放在不同的package下；
+	step2.每个数据源配置一个Config.java；
+	step3.使用@Primary注解，定义其中一个数据源为主数据源；
+	step4.Config.java文件中，定义每个数据源ORM对应的模型的package名、数据库配置信息的前缀（confi.properties中配置的）。
 
-*遗留问题：
-1.以上是静态配置多数据源，下一步要研究动态配置多数据源，包括动态创建数据库，动态配置数据源。
-2.数据库必须先创建好，hibernate启动时才会建立数据源和数据连接，在import.sql中增加创建数据库的sql无效，因为hibernate启动的时候，是先扫描bean生成datasource，后执行import.sql。*
 
 ## 2.多数据库连接 ##
-- 似乎不用关注
+	似乎不用关注
 
 # 事务 #
+	ACID、事务性、回滚，需要充电
 
 # 性能 #
+	数据库的性能调优工具，需要持续去学习，加油
 
 # 运维 #
+	redis集群、主备倒换，不要气馁，未来你就是一个DBA，路还很长
 
 # reference #
-http://docs.spring.io/spring-boot/docs/2.0.0.BUILD-SNAPSHOT/reference/htmlsingle/#boot-features-mongodb
-http://bolg.withword.com/2015/07/02/spring-boot-mongodb多数据源配置/
-http://www.jincon.com/archives/95/
+	http://jingyan.baidu.com/article/0f5fb099045b056d8334ea97.html

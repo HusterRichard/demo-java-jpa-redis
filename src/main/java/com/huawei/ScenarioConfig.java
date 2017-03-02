@@ -1,23 +1,24 @@
-package com.didispace;
+package com.huawei;
 
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.serializer.*;
+import org.springframework.data.redis.repository.configuration.EnableRedisRepositories;
+import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 @Configuration
-@EnableRedisRepository(basepackages = "com.huawei.domain.scenario", redisTemplateRef = "scenarioRedisTemplate")
+@EnableRedisRepositories(basePackages = "com.huawei.domain.scenario", redisTemplateRef = "scenarioRedisTemplate")
 public class ScenarioConfig {
 
-	@Primary
     @Bean
+    @ConfigurationProperties(prefix = "spring.redis.scenario")
     JedisConnectionFactory scenarioJedisConFactory() {
         return new JedisConnectionFactory();
     }
 
-	@Primary
     @Bean(name = "scenarioRedisTemplate")
     public RedisTemplate<String, Object> scenarioRedisTemplate(RedisConnectionFactory factory) {
         RedisTemplate<String, Object> template = new RedisTemplate<String, Object>();

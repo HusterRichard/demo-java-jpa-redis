@@ -1,7 +1,5 @@
 package com.huawei.domain.scenario;
 
-import org.springframework.data.annotation.Id;
-
 import lombok.Getter;
 import lombok.Setter;
 
