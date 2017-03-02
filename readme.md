@@ -22,9 +22,10 @@
 
 ## 1.多数据源 ##
 	step1.不同领域的模型，放在不同的package下；
-	step2.每个数据源配置一个Config.java；
-	step3.使用@Primary注解，定义其中一个数据源为主数据源；
-	step4.Config.java文件中，定义每个数据源ORM对应的模型的package名、数据库配置信息的前缀（confi.properties中配置的）。
+	step2.每个数据源配置一个xxxConfig.java；
+	step3.使用@Primary注解，定义有且仅有一个数据源为主数据源；
+	step4.在confi.properties中配置多个数据库，使用前缀区分；
+	step5.xxxConfig.java文件中，定义每个数据源ORM对应的模型的package名、数据库配置信息的前缀。
 
 
 ## 2.多数据库连接 ##
